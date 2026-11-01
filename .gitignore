@@ -1,0 +1,61 @@
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+
+# dependencies
+/node_modules
+/.pnp
+.pnp.js
+
+# testing
+/coverage
+
+# next.js
+/.next/
+/out/
+
+# production
+/build
+
+# misc
+.DS_Store
+*.pem
+
+# debug
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+
+# local env files
+.env*.local
+.env
+
+# vercel
+.vercel
+
+# typescript
+*.tsbuildinfo
+next-env.d.ts
+
+
+# project-specific non-source files
+SYNOPSIS.md
+SYNOPSIS.txt
+synthetic_data_prompt.txt
+/test data csv outputs
+
+# one-off debug & test scripts in root
+check-prisma.mjs
+test-api.js
+
+# dev/maintenance scripts (generated during development)
+/scripts/*
+!/scripts/setup-db-extensions.js
+
+# Data and CSV uploads
+/Database smaple inputs/
+/Database sample inputs/
+/Synthetic Data/
+sample_data.csv
+
+# Project reports (binaries/pdfs)
+DBS LAB REPORT.*
