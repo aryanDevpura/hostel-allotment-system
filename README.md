@@ -6,13 +6,13 @@ The stack is **Next.js (App Router)**, **React**, **PostgreSQL (Neon)**, and **P
 
 ## 🌐 Live Demo
 
-**[https://hostel-management-system-r19v-e7pvljpio.vercel.app/](https://hostel-management-system-r19v-e7pvljpio.vercel.app/)**
+**[https://hostel-allotment-system-eight.vercel.app/](https://hostel-allotment-system-eight.vercel.app/)**
 
 | Portal | URL |
 |--------|-----|
-| 🏠 Home | [/](https://hostel-management-system-r19v-e7pvljpio.vercel.app/) |
-| 🛡️ Admin Portal | [/admin](https://hostel-management-system-r19v-e7pvljpio.vercel.app/admin) |
-| 🎓 Student Portal | [/student](https://hostel-management-system-r19v-e7pvljpio.vercel.app/student) |
+| 🏠 Home | [/](https://hostel-allotment-system-eight.vercel.app/) |
+| 🛡️ Admin Portal | [/admin](https://hostel-allotment-system-eight.vercel.app/admin) |
+| 🎓 Student Portal | [/student](https://hostel-allotment-system-eight.vercel.app/student) |
 
 > Hosted on **Vercel** · Database on **Neon (PostgreSQL)**
 
@@ -27,8 +27,8 @@ The stack is **Next.js (App Router)**, **React**, **PostgreSQL (Neon)**, and **P
 
 ### 1. Clone the repository
 ```bash
-git clone https://github.com/Siri-shh/Hostel_Management_System.git
-cd Hostel_Management_System
+git clone https://github.com/aryanDevpura/hostel-allotment-system.git
+cd hostel-allotment-system
 ```
 
 ### 2. Install dependencies
