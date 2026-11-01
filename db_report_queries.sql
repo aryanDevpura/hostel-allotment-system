@@ -27,7 +27,7 @@ CREATE TABLE "allotment_sessions" (
 -- 2. VIEWS (Complex Queries)
 -- ------------------------------------------------------------------------------
 -- USE CASE: A real-time monitor that joins 4 tables to calculate occupied vs. vacant beds per room.
--- LOCATION: 'scripts/setup-db-extensions.js' (and 'dbms_project_showcase.sql' Part 1A)
+-- LOCATION: 'scripts/setup-db-extensions.js' (and 'db_query_showcase.sql' Part 1A)
 CREATE OR REPLACE VIEW vw_room_vacancies AS
 SELECT
     b.number            AS block_number,
@@ -103,7 +103,7 @@ $$;
 -- ------------------------------------------------------------------------------
 -- USE CASE: Uses memory-efficient cursors to iterate through waitlisted students 
 -- row-by-row, formatting a ranked text report ordered by CGPA.
--- LOCATION: 'dbms_project_showcase.sql' (Part 1D)
+-- LOCATION: 'db_query_showcase.sql' (Part 1D)
 CREATE OR REPLACE FUNCTION generate_waitlist_report(target_session_id INT)
 RETURNS TEXT LANGUAGE plpgsql AS $$
 DECLARE
@@ -136,7 +136,7 @@ $$;
 -- 6. DML & ATOMIC TRANSACTIONS (BEGIN / ROLLBACK / COMMIT)
 -- ------------------------------------------------------------------------------
 -- USE CASE: Upserting algorithm cutoff rules via raw SQL. Utilizing ON CONFLICT DO UPDATE.
--- LOCATION: 'dbms_project_showcase.sql' (Part 3D)
+-- LOCATION: 'db_query_showcase.sql' (Part 3D)
 BEGIN;
     INSERT INTO block_cutoffs ("sessionId", "blockId", "minCgpa")
     VALUES (
@@ -207,7 +207,7 @@ const dashboardData = await prisma.student.findUnique({
 -- 8. AGGREGATIONS & COMPLEX SELECT QUERIES
 -- ------------------------------------------------------------------------------
 -- USE CASE: Aggregate: Rooms per block (total count and capacity)
--- LOCATION: 'dbms_project_showcase.sql' (Part 2B)
+-- LOCATION: 'db_query_showcase.sql' (Part 2B)
 SELECT b.number AS block, b.gender, COUNT(r.id) AS total_rooms, SUM(rt.capacity) AS total_beds
 FROM blocks b
 JOIN rooms r      ON r."blockId" = b.id
@@ -216,7 +216,7 @@ GROUP BY b.number, b.gender
 ORDER BY b.number;
 
 -- USE CASE: Department-wise CGPA aggregation showing advanced GROUP BY logic.
--- LOCATION: 'dbms_project_showcase.sql' (Part 2E)
+-- LOCATION: 'db_query_showcase.sql' (Part 2E)
 SELECT department, COUNT(*) AS student_count, ROUND(AVG(cgpa)::numeric, 2) AS avg_cgpa, MAX(cgpa) AS top_cgpa
 FROM students
 WHERE "sessionId" = (SELECT MAX(id) FROM allotment_sessions)
@@ -224,7 +224,7 @@ GROUP BY department
 ORDER BY avg_cgpa DESC;
 
 -- USE CASE: Block occupancy report with Average CGPA per block
--- LOCATION: 'dbms_project_showcase.sql' (Part 2G)
+-- LOCATION: 'db_query_showcase.sql' (Part 2G)
 SELECT
     b.number AS block_number, b.gender,
     COUNT(a.id) AS allotted_students,
@@ -238,7 +238,7 @@ GROUP BY b.number, b.gender
 ORDER BY b.number;
 
 -- USE CASE: Load and sort ALL groups by their aggregate average CGPA for the main algorithm engine
--- LOCATION: 'dbms_project_showcase.sql' (Part 5A)
+-- LOCATION: 'db_query_showcase.sql' (Part 5A)
 /* Prisma Javascript Equivalent ('lib/allotment-engine.js'):
 groups = await prisma.studentGroup.findMany({
     where: { sessionId },
@@ -264,7 +264,7 @@ ORDER BY sg."avgCgpa" DESC, min_year ASC;
 -- 9. ADDITIONAL ADVANCED DML QUERIES
 -- ------------------------------------------------------------------------------
 -- USE CASE: Batch Student CSV Upload demonstrating INSERT ON CONFLICT DO NOTHING natively.
--- LOCATION: 'dbms_project_showcase.sql' (Part 3B) / 'app/api/upload/route.js'
+-- LOCATION: 'db_query_showcase.sql' (Part 3B) / 'app/api/upload/route.js'
 /* Prisma Javascript Equivalent:
 await prisma.student.createMany({
     data: studentsBatch,
@@ -330,7 +330,7 @@ ROLLBACK;
 -- USE CASE: Once the Javascript algorithm computes all room assignments in memory, 
 -- it writes the final results into the database using a massive atomic batch transaction.
 -- This guarantees that if one row fails, the entire allotment rolls back safely.
--- LOCATION: 'lib/allotment-engine.js' (Lines ~360) / 'dbms_project_showcase.sql' (Part 5C)
+-- LOCATION: 'lib/allotment-engine.js' (Lines ~360) / 'db_query_showcase.sql' (Part 5C)
 /* Prisma Javascript Equivalent:
 await prisma.$transaction(async (tx) => {
     // Write allotments in chunks...

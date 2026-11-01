@@ -1,5 +1,5 @@
 -- =====================================================================
--- HOSTEL ALLOTMENT SYSTEM - FULL DBMS QUERY MANIFEST
+-- HOSTEL ALLOTMENT SYSTEM - FULL DATABASE QUERY MANIFEST
 -- Database Provider: PostgreSQL (Neon)
 --
 -- HOW TO USE IN NEON SQL EDITOR:
