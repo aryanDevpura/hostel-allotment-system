@@ -51,20 +51,14 @@ This creates all tables, enums, and constraints in your PostgreSQL database:
 npx prisma db push
 ```
 
-### 5. (Optional) Set up database extensions
-Runs the raw SQL setup script that creates custom triggers and views used by the DBMS showcase:
-```bash
-node scripts/setup-db-extensions.js
-```
-
-### 6. Start the development server
+### 5. Start the development server
 ```bash
 npm run dev
 ```
 
 The app will be live at **[http://localhost:3000](http://localhost:3000)**.
 
-### 7. First steps after launch
+### 6. First steps after launch
 1. Go to **`/admin/upload`** and upload a student CSV file to create a new allotment session. Use `sample_data.csv` in the repo root to test.
 2. Go to **`/admin/allotment`** to configure algorithm rules and run the allotment engine.
 3. Students can register and form groups at **`/student`**.
@@ -170,21 +164,6 @@ Everything starts with importing data. The client uses `PapaParse` to chew throu
 | `block_room_configs` | How many rooms of each type exist per floor in a block. |
 | `block_cutoffs` | Per-session, per-block CGPA cutoff values (new). |
 | `allotment_audits` | Audit log of status changes (trigger-populated). |
-
----
-
-## 📊 DBMS Showcase (`dbms_project_showcase.sql`)
-
-A standalone SQL file containing raw PostgreSQL equivalents of all application operations. Designed to be run directly in the Neon SQL editor for academic demonstration. Covers:
-
-- **Views** (`vw_room_vacancies`) — real-time occupancy monitoring
-- **Triggers** (`trg_session_status`) — automated audit logging
-- **Stored Procedures** (`proc_reset_session_allotments`) — database-level session reset
-- **Cursors** (`generate_waitlist_report`) — CGPA-ranked waitlist generation
-- **Transactions** (`BEGIN`/`COMMIT`/`ROLLBACK`) — ACID demonstration
-- **Complex queries** — multi-table JOINs, GROUP BY with aggregates, subqueries, ON CONFLICT upserts
-
-All `INSERT`/`UPDATE`/`DELETE` operations are wrapped in `BEGIN; ... ROLLBACK;` blocks so they can be safely demonstrated without modifying live data.
 
 ---
 
