@@ -1,13 +1,14 @@
 'use client';
 
-import { useState, useEffect, use } from 'react';
+import { useState, useEffect } from 'react';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, Legend } from 'recharts';
 import Link from 'next/link';
 
 const COLORS = ['#1e40af', '#0284c7', '#16a34a', '#d97706', '#dc2626', '#475569', '#6b21a8'];
 
 export default function ResultsPage({ params }) {
-    const { sessionId } = use(params);
+    // In Next.js 14, params is a synchronous plain object in client components
+    const sessionId = params?.sessionId;
     const [stats, setStats] = useState(null);
     const [loading, setLoading] = useState(true);
     const [activeTab, setActiveTab] = useState('overview');
