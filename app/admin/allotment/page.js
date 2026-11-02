@@ -844,28 +844,40 @@ export default function AllotmentPage() {
                                 <thead>
                                     <tr>
                                         <th>Timestamp</th>
-                                        <th>Action Taken</th>
-                                        <th>Table Affected</th>
-                                        <th>Record Details</th>
+                                        <th>Session</th>
+                                        <th>Status Transition</th>
+                                        <th>Old Status</th>
+                                        <th>New Status</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     {auditLogs.length === 0 ? (
                                         <tr>
-                                            <td colSpan={4} style={{ textAlign: 'center', color: 'var(--text-muted)', padding: '16px' }}>
-                                                No audit entries recorded in database.
+                                            <td colSpan={5} style={{ textAlign: 'center', color: 'var(--text-muted)', padding: '16px' }}>
+                                                No audit entries recorded in database. Status transitions will appear here automatically via PostgreSQL trigger.
                                             </td>
                                         </tr>
                                     ) : (
                                         auditLogs.slice(0, 30).map((log, idx) => (
-                                            <tr key={idx}>
+                                            <tr key={log.id || idx}>
                                                 <td style={{ whiteSpace: 'nowrap', fontSize: '12px', color: 'var(--text-muted)' }}>
-                                                    {new Date(log.timestamp || log.createdAt).toLocaleString('en-GB')}
+                                                    {log.changed_at || log.timestamp || log.createdAt
+                                                        ? new Date(log.changed_at || log.timestamp || log.createdAt).toLocaleString('en-GB')
+                                                        : '—'}
                                                 </td>
-                                                <td><span className="badge badge-purple">{log.action || log.operation}</span></td>
-                                                <td style={{ fontFamily: 'monospace' }}>{log.table_name || log.tableName}</td>
-                                                <td style={{ fontSize: '12px', color: 'var(--text-secondary)' }}>
-                                                    {log.details || JSON.stringify(log.record_id || log.data || {})}
+                                                <td style={{ fontWeight: 500 }}>
+                                                    {log.session_name || `Session #${log.sessionId}`}
+                                                </td>
+                                                <td>
+                                                    <span className="badge badge-purple" style={{ fontFamily: 'monospace' }}>
+                                                        {log.old_status} &rarr; {log.new_status}
+                                                    </span>
+                                                </td>
+                                                <td style={{ fontSize: '12px', color: 'var(--text-muted)' }}>
+                                                    {log.old_status || '—'}
+                                                </td>
+                                                <td style={{ fontSize: '12px', fontWeight: 600, color: 'var(--primary)' }}>
+                                                    {log.new_status || '—'}
                                                 </td>
                                             </tr>
                                         ))
