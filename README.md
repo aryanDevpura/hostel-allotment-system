@@ -37,18 +37,25 @@ npm install
 ```
 
 ### 3. Set up your environment file
-Create a `.env` file in the root directory:
+Create a `.env` file in the root directory (you can copy `.env.example`):
 ```bash
-# .env
+# Database (Neon PostgreSQL)
 DATABASE_URL="postgresql://<user>:<password>@<host>/<dbname>?sslmode=require"
-JWT_SECRET="any_long_random_secret_string"
-```
-> If using Neon: copy the connection string directly from your Neon project dashboard → **Connection Details → .env**.
 
-### 4. Push the database schema
-This creates all tables, enums, and constraints in your PostgreSQL database:
+# Admin portal auth
+ADMIN_PASSWORD_HASH="\$2b\$12\$..."  # Escaped bcrypt hash for admin password
+ADMIN_SESSION_TOKEN="<random-64-character-hex-string>"
+
+# JWT Secret for student auth
+JWT_SECRET="<your-strong-random-jwt-secret>"
+```
+> If using Neon: run `neon deploy` to automatically link and pull connection credentials, or copy the connection string directly from your Neon project dashboard.
+
+### 4. Push the database schema & seed initial blocks
+This creates all tables, enums, constraints in your database, and seeds the 11 residential blocks (2,640 rooms):
 ```bash
 npx prisma db push
+npm run db:seed
 ```
 
 ### 5. Start the development server
@@ -189,11 +196,3 @@ Everything starts with importing data. The client uses `PapaParse` to chew throu
 | `POST` | `/api/student/groups/join` | Join a group by invite code |
 | `POST` | `/api/student/groups/leave` | Leave a group |
 | `PATCH` | `/api/student/groups/submit` | Lock group and submit preferences |
-
----
-
-## 💻 A Note on Development
-
-To be completely honest, a lot of this project was "vibe coded". I knew exactly how I wanted the MIT allotment logic to work, but I had gaps in my knowledge when it came to wiring up the modern Next.js App Router, Prisma, and complex React state.
-
-Instead of getting bogged down in tutorials, I used AI prompt-engineering to collaboratively write the code, bridge the things I didn't know, and get the actual business logic functional. It was a fast, practical way to build out the system while learning the stack as I went.

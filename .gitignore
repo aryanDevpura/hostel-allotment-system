@@ -61,3 +61,4 @@ sample_data.csv
 DBS LAB REPORT.*
 .vercel
 .env*
+.neon
